@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_api_train/list-data-screen.dart';
+import 'package:flutter_api_train/welcome-screen.dart';
 import 'package:flutter_api_train/model/public_api.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PublicApiScreen(),
+      home: welcomeScreen(),
     );
   }
 }
