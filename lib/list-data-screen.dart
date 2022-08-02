@@ -75,7 +75,7 @@ class _MyAppState extends State<PublicApiScreen> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return detailScreen();
+                          return detailScreen(data: snapshot.data![index]);
                         }));
                       },
                       child: Column(
