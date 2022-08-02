@@ -70,11 +70,44 @@ class welcomeScreen extends StatelessWidget {
               onSuggestionSelected: (User? suggestion) {
                 final user = suggestion!;
 
-                ScaffoldMessenger.of(context)
-                  ..removeCurrentSnackBar()
-                  ..showSnackBar(SnackBar(
-                    content: Text('Selected user: ${user.title}'),
-                  ));
+                // ScaffoldMessenger.of(context)
+                //   ..removeCurrentSnackBar()
+                //   ..showSnackBar(SnackBar(
+                //     content: Container(
+                //       child: Column(
+                //         children: [
+                //           Text('id : \n${user.userId}'),
+                //           Text('Title : \n${user.title}'),
+                //           Text('Contern : \n${user.body}'),
+                //         ],
+                //       ),
+                //     ),
+                // ));
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Container(
+                      height: 200,
+                      color: Color.fromARGB(255, 255, 235, 173),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const Text('Api Data'),
+                            Text('User ID  : ${user.id}\n'),
+                            Text('Title  :\n${user.title}\n'),
+                            Text('Conten  :\n${user.body}\n'),
+                            ElevatedButton(
+                              child: const Text('Close BottomSheet'),
+                              onPressed: () => Navigator.pop(context),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ],
