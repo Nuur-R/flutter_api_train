@@ -1,38 +1,47 @@
-import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
-Future<AlbumABC> fetchAlbum() async {
-  final response = await http
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/12'));
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return AlbumABC.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
-
-class AlbumABC {
+class User {
+  // final String name;
   final int userId;
   final int id;
   final String title;
+  final String body;
 
-  const AlbumABC({
+  const User({
+    // required this.name,
     required this.userId,
     required this.id,
     required this.title,
+    required this.body,
   });
 
-  factory AlbumABC.fromJson(Map<String, dynamic> json) {
-    return AlbumABC(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-    );
+  static User fromJson(Map<String, dynamic> json) => User(
+        // name: json['title'],
+        userId: json["userId"],
+        id: json["id"],
+        title: json["title"],
+        body: json["body"],
+      );
+}
+
+class UserApi {
+  static Future<List<User>> getUserSuggestions(String query) async {
+    final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List users = json.decode(response.body);
+
+      return users.map((json) => User.fromJson(json)).where((user) {
+        final nameLower = user.title.toLowerCase();
+        final queryLower = query.toLowerCase();
+
+        return nameLower.contains(queryLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
   }
 }
